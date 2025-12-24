@@ -4,3 +4,4 @@ dotenv
 requests
 fastapi
 uvicorn
+jinja2
