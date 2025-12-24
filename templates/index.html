@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Application - AI Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI Assistant</h1>
+            <p class="subtitle">Powered by Elasticsearch & OpenAI</p>
+        </header>
+
+        <div class="main-content">
+            <form id="question-form">
+                <div class="input-group">
+                    <input type="text" id="question" name="question" placeholder="Ask me anything..." required>
+                    <button type="submit" id="submit-btn">
+                        <span id="submit-text">Ask</span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="answer-container" class="hidden">
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <span>Thinking...</span>
+                </div>
+                
+                <div id="answer" class="hidden">
+                    <h2>Answer</h2>
+                    <div id="answer-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('question-form');
+        const questionInput = document.getElementById('question');
+        const answerContainer = document.getElementById('answer-container');
+        const loading = document.getElementById('loading');
+        const answer = document.getElementById('answer');
+        const answerText = document.getElementById('answer-text');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const question = questionInput.value.trim();
+            
+            if (!question) return;
+
+            // Show loading state
+            answerContainer.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            answer.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitText.textContent = 'Processing...';
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    answerText.innerHTML = formatAnswer(data.answer);
+                    answer.classList.remove('hidden');
+                } else {
+                    const error = await response.json();
+                    answerText.innerHTML = `<div class="error">❌ Error: ${error.detail || 'Failed to fetch answer'}</div>`;
+                    answer.classList.remove('hidden');
+                }
+            } catch (error) {
+                answerText.innerHTML = `<div class="error">❌ Network error: ${error.message}</div>`;
+                answer.classList.remove('hidden');
+            } finally {
+                // Hide loading state
+                loading.classList.add('hidden');
+                submitBtn.disabled = false;
+                submitText.textContent = 'Ask';
+            }
+        });
+
+        function formatAnswer(text) {
+            // Basic markdown-like formatting
+            return text
+                .replace(/\n/g, '<br>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        }
+    </script>
+</body>
+</html>

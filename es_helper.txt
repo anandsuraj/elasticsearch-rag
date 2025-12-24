@@ -1,0 +1,21 @@
+
+View semantic data: 
+https://my-elasticsearch-project-cb9a7b.kb.us-east-1.aws.elastic.cloud/app/elasticsearch/indices/index_details/msmarco-semantic/data
+
+https://my-elasticsearch-project-cb9a7b.kb.us-east-1.aws.elastic.cloud/app/discover#/?_tab=(tabId:'390b26e0-5b3e-4218-b9a3-f0fd12621864')
+
+
+
+Kill all ports:
+
+for port in $(seq 8000 8030); do
+  kill -9 $(lsof -t -i :$port) 2>/dev/null
+done
+
+
+uvicorn 5_fastapi_rag_app:app --reload
+
+lsof -ti:8000 | xargs kill -9 2>/dev/null || echo "No process found on port 8000"
+
+
+ls -la *.py

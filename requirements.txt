@@ -1,0 +1,4 @@
+elasticsearch
+openai
+dotenv
+requests
