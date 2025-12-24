@@ -13,3 +13,4 @@ venv/
 
 # Ignore the question history file
 question_history.txt
+es_helper.txt
