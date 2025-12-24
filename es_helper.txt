@@ -13,7 +13,7 @@ for port in $(seq 8000 8030); do
 done
 
 
-uvicorn 5_fastapi_rag_app:app --reload
+python -m uvicorn fastapi_rag_app:app --reload
 
 lsof -ti:8000 | xargs kill -9 2>/dev/null || echo "No process found on port 8000"
 
