@@ -127,7 +127,10 @@ def ask_question(request: QuestionRequest):
     try:
         elasticsearch_results = get_elasticsearch_results(question)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Elasticsearch error: {str(e)}")
+        raise HTTPException(
+        status_code=500, 
+        detail={"error": "Elasticsearch error", "message": str(e)}
+    )
 
     # Create OpenAI prompt
     context_prompt = create_openai_prompt(elasticsearch_results)
@@ -136,7 +139,10 @@ def ask_question(request: QuestionRequest):
     try:
         answer = generate_openai_completion(context_prompt, question)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"OpenAI error: {str(e)}")
+        raise HTTPException(
+        status_code=500,
+        detail={"error": "OpenAI error", "message": str(e)}
+    )
 
     # Store question in history (thread-safe) - keep only last 20
     with history_lock:
