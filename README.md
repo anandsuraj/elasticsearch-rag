@@ -84,6 +84,10 @@ Uses MS MARCO passage test dataset (`msmarco-passagetest2019-unique.tsv`) for se
 - **History Tracking**: Maintains last 20 questions
 - **Error Handling**: Robust error management for ES and OpenAI APIs
 
+- ## Example Output
+
+![AI Assistant Screenshot](https://github.com/anandsuraj/elasticsearch-rag/blob/main/ai-assistant-example.png)
+
 ## License
 
 MIT License
