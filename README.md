@@ -86,7 +86,7 @@ Uses MS MARCO passage test dataset (`msmarco-passagetest2019-unique.tsv`) for se
 
 - ## Example Output
 
-![AI Assistant Screenshot](https://github.com/anandsuraj/elasticsearch-rag/blob/main/ai-assistant-example.png)
+![AI Assistant Screenshot](chatbot-screenshot.png)
 
 ## License
 

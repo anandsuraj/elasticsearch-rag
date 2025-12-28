@@ -5,7 +5,6 @@ https://my-elasticsearch-project-cb9a7b.kb.us-east-1.aws.elastic.cloud/app/elast
 https://my-elasticsearch-project-cb9a7b.kb.us-east-1.aws.elastic.cloud/app/discover#/?_tab=(tabId:'390b26e0-5b3e-4218-b9a3-f0fd12621864')
 
 
-
 Kill all ports:
 
 for port in $(seq 8000 8030); do
